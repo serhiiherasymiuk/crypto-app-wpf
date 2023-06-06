@@ -13,22 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace CryptoAppWpf
+namespace CryptoAppWpf.Pages
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for Converter.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class Converter : Page
     {
-        public MainWindow()
+        public Converter()
         {
             InitializeComponent();
-        }
-
-        private void sidebar_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var selected = sidebar.SelectedItem as NavButton;
-            navframe.Navigate(selected.NavLink);
         }
     }
 }
