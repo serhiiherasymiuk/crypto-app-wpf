@@ -9,6 +9,11 @@
       Title="Main">
 
     <Grid>
-        <Label>HELLO FROM MAIN</Label>
+        <ListBox>
+            <ListBoxItem>Item</ListBoxItem>
+            <ListBoxItem>Item</ListBoxItem>
+            <ListBoxItem>Item</ListBoxItem>
+            <ListBoxItem>Item</ListBoxItem>
+        </ListBox>
     </Grid>
 </Page>
