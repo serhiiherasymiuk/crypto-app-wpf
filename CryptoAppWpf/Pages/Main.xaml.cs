@@ -20,9 +20,11 @@ namespace CryptoAppWpf.Pages
     /// </summary>
     public partial class Main : Page
     {
+        ViewModel viewModel = new ViewModel();
         public Main()
         {
             InitializeComponent();
+            this.DataContext = viewModel;
         }
     }
 }

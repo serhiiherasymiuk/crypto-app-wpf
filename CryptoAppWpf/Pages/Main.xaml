@@ -3,17 +3,78 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:CryptoAppWpf.Pages"
+      xmlns:local="clr-namespace:CryptoAppWpf" d:DataContext="{d:DesignInstance Type=local:ViewModel}"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Main">
 
+    <Page.Resources>
+        <Style x:Key="ListBoxStyle" TargetType="ListBox">
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Background" Value="White" />
+            <Setter Property="Padding" Value="8" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBox">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="8">
+                            <ScrollViewer Padding="{TemplateBinding Padding}">
+                                <ItemsPresenter />
+                            </ScrollViewer>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="ListBoxItemStyle" TargetType="ListBoxItem">
+            <Setter Property="Padding" Value="10" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Border BorderBrush="LightGray" BorderThickness="0 0 0 1">
+                            <ContentPresenter />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
     <Grid>
-        <ListBox>
-            <ListBoxItem>Item</ListBoxItem>
-            <ListBoxItem>Item</ListBoxItem>
-            <ListBoxItem>Item</ListBoxItem>
-            <ListBoxItem>Item</ListBoxItem>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Margin="15, 20, 30, 20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="Name" FontWeight="Bold" />
+            <TextBlock Grid.Column="1" Text="ID" FontWeight="Bold" />
+            <TextBlock Grid.Column="2" Text="Rank" FontWeight="Bold" />
+            <TextBlock Grid.Column="3" Text="Price USD" FontWeight="Bold" />
+        </Grid>
+        <ListBox Grid.Row="1" Margin="8" ItemsSource="{Binding CryptoCurrencies}" SelectedItem="{Binding SelectedCryptoCurrency}" Style="{StaticResource ListBoxStyle}" ItemContainerStyle="{StaticResource ListBoxItemStyle}" HorizontalContentAlignment="Stretch">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border>
+                        <Grid Margin="0,15">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Column="0" Text="{Binding Name}"  />
+                            <TextBlock Grid.Column="1" Text="{Binding Id}"  />
+                            <TextBlock Grid.Column="2" Text="{Binding Rank}"  />
+                            <TextBlock Grid.Column="3" Text="{Binding PriceUsd}"  />
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
         </ListBox>
     </Grid>
 </Page>
