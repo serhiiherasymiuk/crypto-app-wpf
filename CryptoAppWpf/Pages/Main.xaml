@@ -37,44 +37,89 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style x:Key="HeaderItemStyle" TargetType="ListBoxItem">
+            <Setter Property="Padding" Value="10" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <ContentPresenter />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Margin="15, 20, 30, 20">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0" Text="Name" FontWeight="Bold" />
-            <TextBlock Grid.Column="1" Text="ID" FontWeight="Bold" />
-            <TextBlock Grid.Column="2" Text="Rank" FontWeight="Bold" />
-            <TextBlock Grid.Column="3" Text="Price USD" FontWeight="Bold" />
-        </Grid>
-        <ListBox Grid.Row="1" Margin="8" ItemsSource="{Binding CryptoCurrencies}" SelectedItem="{Binding SelectedCryptoCurrency}" Style="{StaticResource ListBoxStyle}" ItemContainerStyle="{StaticResource ListBoxItemStyle}" HorizontalContentAlignment="Stretch">
+
+        <ListBox BorderBrush="LightGray" BorderThickness="0 0 0 0" Style="{StaticResource ListBoxStyle}" ItemContainerStyle="{StaticResource HeaderItemStyle}" HorizontalContentAlignment="Stretch" Margin="8">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Image Grid.Column="0" Source="{Binding large}" Width="50" Height="10" />
+                <TextBlock Grid.Column="1" Text="Name" FontWeight="Bold" />
+                <TextBlock Grid.Column="2" Text="Symbol" FontWeight="Bold" />
+                <TextBlock Grid.Column="3" Text="PriceUSD" FontWeight="Bold" />
+                <TextBlock Grid.Column="4" Text="24h" FontWeight="Bold" />
+                <TextBlock Grid.Column="5" Text="7d" FontWeight="Bold" />
+                <TextBlock Grid.Column="6" Text="30d" FontWeight="Bold" />
+            </Grid>
+        </ListBox>
+
+        <ListBox Margin="8" SelectionChanged="ListBox_SelectionChanged" Grid.Row="1" ItemsSource="{Binding CryptoCurrencies}" SelectedItem="{Binding SelectedCryptoCurrency}" Style="{StaticResource ListBoxStyle}" ItemContainerStyle="{StaticResource ListBoxItemStyle}" HorizontalContentAlignment="Stretch">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Border>
-                        <Grid Margin="0,15">
+                        <Grid>
                             <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
 
-                            <TextBlock Grid.Column="0" Text="{Binding Name}"  />
-                            <TextBlock Grid.Column="1" Text="{Binding Id}"  />
-                            <TextBlock Grid.Column="2" Text="{Binding Rank}"  />
-                            <TextBlock Grid.Column="3" Text="{Binding PriceUsd}"  />
+                            <Image Grid.Column="0" Source="{Binding large}" Width="50" Height="50" />
+                            <TextBlock Padding="0,15" Grid.Column="1" Text="{Binding name}" FontWeight="Bold" />
+                            <TextBlock Padding="0,15" Grid.Column="2" Text="{Binding symbol}" FontWeight="Bold" />
+                            <TextBlock Padding="0,15" Grid.Column="3" Text="{Binding PriceUSD}" FontWeight="Bold" />
+                            <TextBlock Padding="0,15" Grid.Column="4" Text="{Binding price_change_percentage_24h}" FontWeight="Bold" />
+                            <TextBlock Padding="0,15" Grid.Column="5" Text="{Binding price_change_percentage_7d}" FontWeight="Bold" />
+                            <TextBlock Padding="0,15" Grid.Column="6" Text="{Binding price_change_percentage_30d}" FontWeight="Bold" />
                         </Grid>
                     </Border>
                 </DataTemplate>
             </ListBox.ItemTemplate>
+
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel />
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+
+            <ListBox.Template>
+                <ControlTemplate TargetType="ListBox">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="8">
+                        <ScrollViewer Padding="{TemplateBinding Padding}">
+                            <ItemsPresenter />
+                        </ScrollViewer>
+                    </Border>
+                </ControlTemplate>
+            </ListBox.Template>
         </ListBox>
     </Grid>
+
+
 </Page>

@@ -26,5 +26,15 @@ namespace CryptoAppWpf.Pages
             InitializeComponent();
             this.DataContext = viewModel;
         }
+
+        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var selectedCryptoCurrency = (sender as ListBox).SelectedItem as CryptoCurrency;
+
+            if (selectedCryptoCurrency != null)
+            {
+                NavigationService.Navigate(new CryptoCurrencyPage(selectedCryptoCurrency));
+            }
+        }
     }
 }

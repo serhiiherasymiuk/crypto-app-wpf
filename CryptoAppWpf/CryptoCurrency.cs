@@ -10,49 +10,20 @@ namespace CryptoAppWpf
 {
     internal class CryptoCurrency : INotifyPropertyChanged
     {
-        private string id;
-
-        public string Id
-        {
-            get { return id; }
-            set { id = value; }
-        }
-        private string name;
-
-        public string Name
-        {
-            get { return name; }
-            set { name = value; }
-        }
-        private string rank;
-
-        public string Rank
-        {
-            get { return rank; }
-            set { rank = value; }
-        }
-
-        private string priceUsd;
-
-        public string PriceUsd
-        {
-            get { return priceUsd; }
-            set { priceUsd = value; }
-        }
-
+        public string symbol { get; set; }
+        public string id { get; set; }
+        public string name { get; set; }
+        public string large { get; set; }
+        public decimal price_btc { get; set; }
+        public decimal PriceUSD { get; set; }
+        public decimal price_change_percentage_24h { get; set; }
+        public decimal price_change_percentage_7d { get; set; }
+        public decimal price_change_percentage_30d { get; set; }
+        public decimal price_change_percentage_1y { get; set; }
         public void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         public event PropertyChangedEventHandler PropertyChanged;
-        public CryptoCurrency Clone()
-        {
-            CryptoCurrency cryptoCurrency = (CryptoCurrency)this.MemberwiseClone();
-            cryptoCurrency.Id = (string)this.Id;
-            cryptoCurrency.Name = (string)this.Name;
-            cryptoCurrency.Rank = (string)this.Rank;
-            cryptoCurrency.PriceUsd = (string)this.PriceUsd;
-            return cryptoCurrency;
-        }
     }
 }
