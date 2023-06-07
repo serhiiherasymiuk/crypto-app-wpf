@@ -51,10 +51,23 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <ListBox BorderBrush="LightGray" BorderThickness="0 0 0 0" Style="{StaticResource ListBoxStyle}" ItemContainerStyle="{StaticResource HeaderItemStyle}" HorizontalContentAlignment="Stretch" Margin="8">
+        <Grid Grid.Row="0" Margin="10,0,10,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <TextBox x:Name="SearchTextBox" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                     Padding="5" />
+            <Button Grid.Column="1" Content="Search" Command="{Binding SearchCommand}" 
+                Padding="5" Background="White" Foreground="Black" />
+        </Grid>
+
+        <ListBox Grid.Row="1" BorderBrush="LightGray" BorderThickness="0 0 0 0" Style="{StaticResource ListBoxStyle}" ItemContainerStyle="{StaticResource HeaderItemStyle}" HorizontalContentAlignment="Stretch" Margin="8">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -76,7 +89,7 @@
             </Grid>
         </ListBox>
 
-        <ListBox Margin="8" SelectionChanged="ListBox_SelectionChanged" Grid.Row="1" ItemsSource="{Binding CryptoCurrencies}" SelectedItem="{Binding SelectedCryptoCurrency}" Style="{StaticResource ListBoxStyle}" ItemContainerStyle="{StaticResource ListBoxItemStyle}" HorizontalContentAlignment="Stretch">
+        <ListBox Margin="8" SelectionChanged="ListBox_SelectionChanged" Grid.Row="2" ItemsSource="{Binding CryptoCurrencies}" SelectedItem="{Binding SelectedCryptoCurrency}" Style="{StaticResource ListBoxStyle}" ItemContainerStyle="{StaticResource ListBoxItemStyle}" HorizontalContentAlignment="Stretch">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Border>
