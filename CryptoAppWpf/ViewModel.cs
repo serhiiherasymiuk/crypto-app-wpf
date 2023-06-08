@@ -5,27 +5,24 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Net.Http;
 using System.Diagnostics;
-using CryptoAppWpf;
 using System;
 using System.Linq;
+using CryptoAppWpf.Model;
 
 namespace CryptoAppWpf
 {
-    internal class ViewModel
+    public class ViewModel
     {
         private RelayCommand fetchCommand;
         private RelayCommand searchCommand;
         public string SearchText { get; set; }
-        private ObservableCollection<CryptoCurrency> cryptoCurrencies = new ObservableCollection<CryptoCurrency>();
+        static private ObservableCollection<CryptoCurrency> cryptoCurrencies = new ObservableCollection<CryptoCurrency>();
         public IEnumerable<CryptoCurrency> CryptoCurrencies => cryptoCurrencies;
-        public CryptoCurrency CurrentCryptoCurrency { get; set; }
-        public CryptoCurrency SelectedCryptoCurrency { get; set; }
+
         public ViewModel()
         {
             fetchCommand = new RelayCommand(async (o) => await FetchCryptoCurrenciesAsync());
             searchCommand = new RelayCommand(async (o) => await SearchCryptoCurrenciesAsync());
-            CurrentCryptoCurrency = new CryptoCurrency();
-            FetchCryptoCurrenciesAsync();
         }
         public ICommand FetchCommand => fetchCommand;
         public ICommand SearchCommand => searchCommand;
@@ -93,25 +90,36 @@ namespace CryptoAppWpf
             {
                 try
                 {
-                    HttpResponseMessage usdPriceResponse = await client.GetAsync($"https://api.coingecko.com/api/v3/coins/{currency.id}");
-                    usdPriceResponse.EnsureSuccessStatusCode();
-                    string usdPriceResponseBody = await usdPriceResponse.Content.ReadAsStringAsync();
-                    CryptoCurrencyPriceResponse priceResponse = JsonSerializer.Deserialize<CryptoCurrencyPriceResponse>(usdPriceResponseBody);
-
-                    if (priceResponse.market_data != null)
+                    HttpResponseMessage response = await client.GetAsync($"https://api.coingecko.com/api/v3/coins/{currency.id}");
+                    response.EnsureSuccessStatusCode();
+                    string usdPriceResponseBody = await response.Content.ReadAsStringAsync();
+                    CryptoCurrencyInfoResponse infoResponse = JsonSerializer.Deserialize<CryptoCurrencyInfoResponse>(usdPriceResponseBody);
+                    if (infoResponse.market_cap_rank != null)
                     {
-                        MarketData marketData = priceResponse.market_data;
+                        currency.market_cap_rank = infoResponse.market_cap_rank;
+                    }
+                    if (infoResponse.tickers != null)
+                    {
+                        currency.tickers = infoResponse.tickers;
+                    }
+                    if (infoResponse.market_data != null)
+                    {
+                        MarketData marketData = infoResponse.market_data;
 
                         if (marketData.current_price != null && marketData.current_price.ContainsKey("usd"))
                         {
                             decimal usdPrice = marketData.current_price["usd"];
                             currency.PriceUSD = usdPrice;
-                            Trace.WriteLine($"Price (USD): {usdPrice}");
                         }
                         currency.price_change_percentage_24h = marketData.price_change_percentage_24h;
                         currency.price_change_percentage_7d = marketData.price_change_percentage_7d;
                         currency.price_change_percentage_30d = marketData.price_change_percentage_30d;
                         currency.price_change_percentage_1y = marketData.price_change_percentage_1y;
+                    }
+
+                    if (infoResponse.links != null && infoResponse.links.homepage != null && infoResponse.links.homepage.Count > 0)
+                    {
+                        currency.homepage = infoResponse.links.homepage[0];
                     }
 
                     cryptoCurrencies.Add(currency);
@@ -123,42 +131,4 @@ namespace CryptoAppWpf
             }
         }
     }
-}
-internal class CoinData
-{
-    public CryptoCurrency item { get; set; }
-}
-
-internal class CryptoCurrencyApiResponse
-{
-    public List<CoinData> coins { get; set; }
-    public List<object> nfts { get; set; }
-    public List<object> exchanges { get; set; }
-}
-
-internal class CryptoCurrencyPriceResponse
-{
-    public MarketData market_data { get; set; }
-}
-
-internal class MarketData
-{
-    public Dictionary<string, decimal> current_price { get; set; }
-    public decimal price_change_percentage_24h { get; set; }
-    public decimal price_change_percentage_7d { get; set; }
-    public decimal price_change_percentage_30d { get; set; }
-    public decimal price_change_percentage_1y { get; set; }
-}
-
-internal class CryptoCurrencySearchResult
-{
-    public string name { get; set; }
-    public string symbol { get; set; }
-    public string id { get; set; }
-    public string large { get; set; }
-}
-
-internal class CryptoCurrencySearchResponse
-{
-    public List<CryptoCurrencySearchResult> coins { get; set; }
 }

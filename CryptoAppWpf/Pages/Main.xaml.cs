@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CryptoAppWpf.Model;
 
 namespace CryptoAppWpf.Pages
 {
@@ -20,11 +22,13 @@ namespace CryptoAppWpf.Pages
     /// </summary>
     public partial class Main : Page
     {
-        ViewModel viewModel = new ViewModel();
-        public Main()
+        ViewModel viewModel;
+
+        public Main(ViewModel sharedViewModel)
         {
             InitializeComponent();
-            this.DataContext = viewModel;
+            viewModel = sharedViewModel;
+            DataContext = viewModel;
         }
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -33,7 +37,17 @@ namespace CryptoAppWpf.Pages
 
             if (selectedCryptoCurrency != null)
             {
-                NavigationService.Navigate(new CryptoCurrencyPage(selectedCryptoCurrency));
+                NavigationService?.Navigate(new CryptoCurrencyPage(selectedCryptoCurrency));
+            }
+        }
+
+        private void ListBox_Selected(object sender, RoutedEventArgs e)
+        {
+            var selectedCryptoCurrency = (sender as ListBox).SelectedItem as CryptoCurrency;
+
+            if (selectedCryptoCurrency != null)
+            {
+                NavigationService?.Navigate(new CryptoCurrencyPage(selectedCryptoCurrency));
             }
         }
     }

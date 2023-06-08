@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -12,6 +14,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Xml.Linq;
+using CryptoAppWpf.Model;
 
 namespace CryptoAppWpf.Pages
 {
@@ -24,17 +28,27 @@ namespace CryptoAppWpf.Pages
         {
             InitializeComponent();
         }
-        private readonly CryptoCurrency _cryptoCurrency;
 
         internal CryptoCurrencyPage(CryptoCurrency cryptoCurrency)
         {
             InitializeComponent();
-
-            _cryptoCurrency = cryptoCurrency;
-
-            // You can now use the cryptoCurrency parameter as needed
-            // For example, you can set the DataContext of the page to the cryptoCurrency object
             DataContext = cryptoCurrency;
         }
+
+        private void Hyperlink_Click(object sender, RoutedEventArgs e)
+        {
+            var destinationurl = ((Hyperlink)sender).CommandParameter.ToString();
+            var sInfo = new ProcessStartInfo(destinationurl)
+            {
+                UseShellExecute = true,
+            };
+            Process.Start(sInfo);
+        }
+
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService?.GoBack();
+        }
     }
+
 }

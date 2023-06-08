@@ -1,5 +1,7 @@
-﻿using System;
+﻿using CryptoAppWpf.Pages;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,9 +22,13 @@ namespace CryptoAppWpf
     /// </summary>
     public partial class MainWindow : Window
     {
+        ViewModel viewModel;
         public MainWindow()
         {
             InitializeComponent();
+            viewModel = new ViewModel();
+            viewModel.FetchCryptoCurrenciesAsync();
+            navframe.Navigate(new Main(viewModel));
         }
 
         private void sidebar_SelectionChanged(object sender, SelectionChangedEventArgs e)

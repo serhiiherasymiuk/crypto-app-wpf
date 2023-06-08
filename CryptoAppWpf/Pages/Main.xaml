@@ -52,6 +52,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
@@ -67,9 +68,14 @@
                 Padding="5" Background="White" Foreground="Black" />
         </Grid>
 
-        <ListBox Grid.Row="1" BorderBrush="LightGray" BorderThickness="0 0 0 0" Style="{StaticResource ListBoxStyle}" ItemContainerStyle="{StaticResource HeaderItemStyle}" HorizontalContentAlignment="Stretch" Margin="8">
+        <UniformGrid Grid.Row="1" Margin="0,5,0,0">
+            <Button Command="{Binding FetchCommand}"  Padding="5" Background="White" Foreground="Black" Width="200">Show Trending</Button>
+        </UniformGrid>
+
+        <ListBox Grid.Row="2" BorderBrush="LightGray" BorderThickness="0 0 0 0" Style="{StaticResource ListBoxStyle}" ItemContainerStyle="{StaticResource HeaderItemStyle}" HorizontalContentAlignment="Stretch" Margin="8">
             <Grid>
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
@@ -80,16 +86,17 @@
                 </Grid.ColumnDefinitions>
 
                 <Image Grid.Column="0" Source="{Binding large}" Width="50" Height="10" />
-                <TextBlock Grid.Column="1" Text="Name" FontWeight="Bold" />
-                <TextBlock Grid.Column="2" Text="Symbol" FontWeight="Bold" />
-                <TextBlock Grid.Column="3" Text="PriceUSD" FontWeight="Bold" />
-                <TextBlock Grid.Column="4" Text="24h" FontWeight="Bold" />
-                <TextBlock Grid.Column="5" Text="7d" FontWeight="Bold" />
-                <TextBlock Grid.Column="6" Text="30d" FontWeight="Bold" />
+                <TextBlock Grid.Column="1" Text="Rank" FontWeight="Bold" />
+                <TextBlock Grid.Column="2" Text="Name" FontWeight="Bold" />
+                <TextBlock Grid.Column="3" Text="Symbol" FontWeight="Bold" />
+                <TextBlock Grid.Column="4" Text="PriceUSD" FontWeight="Bold" />
+                <TextBlock Grid.Column="5" Text="24h" FontWeight="Bold" />
+                <TextBlock Grid.Column="6" Text="7d" FontWeight="Bold" />
+                <TextBlock Grid.Column="7" Text="30d" FontWeight="Bold" />
             </Grid>
         </ListBox>
 
-        <ListBox Margin="8" SelectionChanged="ListBox_SelectionChanged" Grid.Row="2" ItemsSource="{Binding CryptoCurrencies}" SelectedItem="{Binding SelectedCryptoCurrency}" Style="{StaticResource ListBoxStyle}" ItemContainerStyle="{StaticResource ListBoxItemStyle}" HorizontalContentAlignment="Stretch">
+        <ListBox Margin="8" SelectionChanged="ListBox_SelectionChanged" Grid.Row="3" ItemsSource="{Binding CryptoCurrencies}" SelectedItem="{Binding SelectedCryptoCurrency}" Style="{StaticResource ListBoxStyle}" ItemContainerStyle="{StaticResource ListBoxItemStyle}" HorizontalContentAlignment="Stretch">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Border>
@@ -102,15 +109,17 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
 
-                            <Image Grid.Column="0" Source="{Binding large}" Width="50" Height="50" />
-                            <TextBlock Padding="0,15" Grid.Column="1" Text="{Binding name}" FontWeight="Bold" />
-                            <TextBlock Padding="0,15" Grid.Column="2" Text="{Binding symbol}" FontWeight="Bold" />
-                            <TextBlock Padding="0,15" Grid.Column="3" Text="{Binding PriceUSD}" FontWeight="Bold" />
-                            <TextBlock Padding="0,15" Grid.Column="4" Text="{Binding price_change_percentage_24h}" FontWeight="Bold" />
-                            <TextBlock Padding="0,15" Grid.Column="5" Text="{Binding price_change_percentage_7d}" FontWeight="Bold" />
-                            <TextBlock Padding="0,15" Grid.Column="6" Text="{Binding price_change_percentage_30d}" FontWeight="Bold" />
+                            <Image Margin="10" Grid.Column="0" Source="{Binding large}" Width="50" Height="50" />
+                            <TextBlock VerticalAlignment="Center" Padding="0,15" Grid.Column="1" Text="{Binding market_cap_rank}" FontWeight="Bold" />
+                            <TextBlock VerticalAlignment="Center" Padding="0,15" Grid.Column="2" Text="{Binding name}" FontWeight="Bold" />
+                            <TextBlock VerticalAlignment="Center" Padding="0,15" Grid.Column="3" Text="{Binding symbol}" FontWeight="Bold" />
+                            <TextBlock VerticalAlignment="Center" Padding="0,15" Grid.Column="4" Text="{Binding PriceUSD, StringFormat={}{0}$}" FontWeight="Bold" />
+                            <TextBlock VerticalAlignment="Center" Padding="0,15" Grid.Column="5" Text="{Binding price_change_percentage_24h, StringFormat={}{0}%}" FontWeight="Bold" />
+                            <TextBlock VerticalAlignment="Center" Padding="0,15" Grid.Column="6" Text="{Binding price_change_percentage_7d, StringFormat={}{0}%}" FontWeight="Bold" />
+                            <TextBlock VerticalAlignment="Center" Padding="0,15" Grid.Column="7" Text="{Binding price_change_percentage_30d, StringFormat={}{0}%}" FontWeight="Bold" />
                         </Grid>
                     </Border>
                 </DataTemplate>
@@ -133,6 +142,4 @@
             </ListBox.Template>
         </ListBox>
     </Grid>
-
-
 </Page>
