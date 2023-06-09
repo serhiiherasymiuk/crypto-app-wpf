@@ -20,9 +20,12 @@ namespace CryptoAppWpf.Pages
     /// </summary>
     public partial class Converter : Page
     {
+        ConvertViewModel convertViewModel;
         public Converter()
         {
             InitializeComponent();
+            convertViewModel = new ConvertViewModel();
+            this.DataContext = convertViewModel;
         }
     }
 }

@@ -8,10 +8,11 @@ using System.Diagnostics;
 using System;
 using System.Linq;
 using CryptoAppWpf.Model;
+using System.Reflection.Metadata;
 
 namespace CryptoAppWpf
 {
-    public class ViewModel
+    public class CryptoViewModel
     {
         private RelayCommand fetchCommand;
         private RelayCommand searchCommand;
@@ -19,13 +20,14 @@ namespace CryptoAppWpf
         static private ObservableCollection<CryptoCurrency> cryptoCurrencies = new ObservableCollection<CryptoCurrency>();
         public IEnumerable<CryptoCurrency> CryptoCurrencies => cryptoCurrencies;
 
-        public ViewModel()
+        public CryptoViewModel()
         {
             fetchCommand = new RelayCommand(async (o) => await FetchCryptoCurrenciesAsync());
             searchCommand = new RelayCommand(async (o) => await SearchCryptoCurrenciesAsync());
         }
-        public ICommand FetchCommand => fetchCommand;
+        public ICommand FetchCommand => fetchCommand;        
         public ICommand SearchCommand => searchCommand;
+
         public async Task FetchCryptoCurrenciesAsync()
         {
             using (HttpClient client = new HttpClient())

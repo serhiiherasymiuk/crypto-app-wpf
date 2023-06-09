@@ -8,7 +8,41 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Converter">
 
-    <Grid>
-        <Label>HELLO FROM CONVERTER</Label>
+    <Grid Height="400" Margin="10" Background="Transparent" Width="300">
+        <Border Background="White" CornerRadius="10">
+            <Grid VerticalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="70"/>
+                    <RowDefinition Height="70"/>
+                    <RowDefinition Height="70"/>
+                    <RowDefinition Height="70"/>
+                    <RowDefinition Height="70"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Height="50" Grid.Row="0">
+                    <Label HorizontalAlignment="Center" Content="Amount of cryptocurrency:"/>
+                    <TextBox Padding="3" x:Name="amountTextBox" Width="100" Text="{Binding Amount}"/>
+                </StackPanel>
+
+                <StackPanel Height="50" Grid.Row="1" >
+                    <Label HorizontalAlignment="Center" Content="Cryptocurrency name:"/>
+                    <TextBox Padding="3" x:Name="cryptoNameTextBox" Width="100" Text="{Binding CryptoName}"/>
+                </StackPanel>
+
+                <StackPanel Height="50" Grid.Row="2">
+                    <Label HorizontalAlignment="Center" Content="Cryptocurrency to convert to:"/>
+                    <TextBox Padding="3" x:Name="convertToTextBox" Width="100" Text="{Binding ConvertTo}"/>
+                </StackPanel>
+
+                <StackPanel VerticalAlignment="Center" Grid.Row="3" >
+                    <Button Background="White" Width="200" Padding="5" Command="{Binding ConvertCommand}">Convert</Button>
+                </StackPanel>
+
+                <StackPanel Height="50" Grid.Row="4" >
+                    <Label HorizontalAlignment="Center" Content="Conversion result:"/>
+                    <TextBox TextAlignment="Center" Width="220" Padding="3" x:Name="conversionResultTextBox" IsReadOnly="True" Text="{Binding ConversionResult, Mode=TwoWay}"/>
+                </StackPanel>
+            </Grid>
+        </Border>
     </Grid>
 </Page>

@@ -22,9 +22,15 @@ namespace CryptoAppWpf.Pages
     /// </summary>
     public partial class Main : Page
     {
-        ViewModel viewModel;
+        CryptoViewModel viewModel;
 
-        public Main(ViewModel sharedViewModel)
+        public Main()
+        {
+            InitializeComponent();
+            viewModel = new CryptoViewModel();
+            DataContext = viewModel;
+        }
+        public Main(CryptoViewModel sharedViewModel)
         {
             InitializeComponent();
             viewModel = sharedViewModel;
@@ -39,6 +45,8 @@ namespace CryptoAppWpf.Pages
             {
                 NavigationService?.Navigate(new CryptoCurrencyPage(selectedCryptoCurrency));
             }
+
+            (sender as ListBox).SelectedItem = null;
         }
 
         private void ListBox_Selected(object sender, RoutedEventArgs e)

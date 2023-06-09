@@ -22,19 +22,28 @@ namespace CryptoAppWpf
     /// </summary>
     public partial class MainWindow : Window
     {
-        ViewModel viewModel;
+        CryptoViewModel viewModel;
         public MainWindow()
         {
             InitializeComponent();
-            viewModel = new ViewModel();
+            viewModel = new CryptoViewModel();
             viewModel.FetchCryptoCurrenciesAsync();
             navframe.Navigate(new Main(viewModel));
+            sidebar.SelectedItem = sidebar.Items.Cast<NavButton>().FirstOrDefault(btn => btn.NavLink.ToString() == "/Pages/Main.xaml");
         }
 
         private void sidebar_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var selected = sidebar.SelectedItem as NavButton;
-            navframe.Navigate(selected.NavLink);
+            Trace.WriteLine(selected.NavLink.ToString());
+            if (selected.NavLink.ToString() == "/Pages/Main.xaml")
+            {
+                navframe.Navigate(new Main(viewModel));
+            }
+            else
+            {
+                navframe.Navigate(selected.NavLink);
+            }
         }
     }
 }
